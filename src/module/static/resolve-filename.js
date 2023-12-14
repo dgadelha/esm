@@ -25,6 +25,8 @@ import staticFindPath from "./find-path.js"
 import staticResolveLookupPaths from "./resolve-lookup-paths.js"
 import validateString from "../../util/validate-string.js"
 
+import realRequire from "../../real/require.js"
+
 const {
   TYPE_CJS,
   TYPE_PSEUDO
@@ -112,6 +114,12 @@ const resolveFilename = maskFunction(function (request, parent, isMain = false, 
 
   if (foundPath === false) {
     foundPath = ""
+
+    // If our custom resolution logic fails, fall back to node's built-in
+    // resolution, which better covers some other cases (e.g. export maps).
+    try {
+      foundPath = realRequire.resolve(request, { paths })
+    } catch (e) {}
   }
 
   if (foundPath !== "") {
