@@ -18,6 +18,7 @@ import shared from "./shared.js"
 import stripShebang from "./util/strip-shebang.js"
 import temporalVisitor from "./visitor/temporal.js"
 import undeclaredVisitor from "./visitor/undeclared.js"
+import requireDeclarationVisitor from "./visitor/require-declaration.js"
 
 function init() {
   const {
@@ -58,6 +59,7 @@ function init() {
       requireVisitor.reset()
       temporalVisitor.reset()
       undeclaredVisitor.reset()
+      requireDeclarationVisitor.reset()
 
       const result = {
         circular: 0,
@@ -92,11 +94,13 @@ function init() {
       const possibleExportIndexes = findIndexes(code, ["export"])
       const possibleEvalIndexes = findIndexes(code, ["eval"])
       const possibleImportExportIndexes = findIndexes(code, ["import"])
+      const possibleRequireIndexes = findIndexes(code, ["require"])
 
       const possibleChanges =
         possibleExportIndexes.length !== 0 ||
         possibleEvalIndexes.length !== 0 ||
-        possibleImportExportIndexes.length !== 0
+        possibleImportExportIndexes.length !== 0 ||
+        possibleRequireIndexes.length !== 0
 
       if (! possibleChanges &&
           (sourceType === SOURCE_TYPE_SCRIPT ||
@@ -292,11 +296,21 @@ function init() {
         })
       }
 
+      if (topIdentifiers.has('require') &&
+          sourceType === SOURCE_TYPE_MODULE) {
+        requireDeclarationVisitor.visit(rootPath, {
+          magicString,
+          possibleIndexes: possibleRequireIndexes,
+          runtimeName
+        })
+      }
+
       result.transforms =
         evalVisitor.transforms |
         globalsVisitor.transforms |
         importExportTransforms |
-        undeclaredVisitor.transforms
+        undeclaredVisitor.transforms |
+        requireDeclarationVisitor.transforms
 
       if (result.transforms !== 0) {
         yieldIndex = importExportVisitor.yieldIndex
