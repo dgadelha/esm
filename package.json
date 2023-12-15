@@ -1,14 +1,14 @@
 {
-  "name": "esm-wallaby",
+  "name": "@httptoolkit/esm",
   "version": "3.2.28",
   "description": "Tomorrow's ECMAScript modules today!",
   "keywords": "commonjs, ecmascript, export, import, modules, node, require",
-  "repository": "standard-things/esm",
+  "repository": "httptoolkit/esm",
   "license": "MIT",
-  "author": "John-David Dalton <john.david.dalton@gmail.com>",
+  "author": "Tim Perry <tim@httptoolkit.com>",
   "main": "esm.js",
   "private": true,
-  "runkitExample": "require = require(\"esm\")(module)\nrequire(\"lodash-es\")",
+  "runkitExample": "require = require(\"@httptoolkit/esm\")(module)\nrequire(\"lodash-es\")",
   "esm": true,
   "engines": {
     "node": ">=6"

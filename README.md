@@ -1,38 +1,31 @@
-# esm
+# @httptoolkit/esm
 
-The brilliantly simple, babel-less, bundle-less ECMAScript module loader.
+> _Part of [HTTP Toolkit](https://httptoolkit.com): powerful tools for building, testing & debugging HTTP(S)_
 
-> `esm` is the world’s most advanced ECMAScript module loader.
-This fast, production ready, zero dependency loader is all you need to support
-ECMAScript modules in Node 6+. See the release [post](https://medium.com/web-on-the-edge/tomorrows-es-modules-today-c53d29ac448c)
-and [video](https://www.youtube.com/watch?v=JcZ-FzfDq8A#t=5) for details!
+**This is a forked version of the [esm package](https://www.npmjs.com/package/esm)**: the brilliantly simple, babel-less, bundle-less ECMAScript module loader (which is now unmaintained). This fork includes:
+
+* Assorted updates from the [esm-wallaby fork](https://www.npmjs.com/package/esm-wallaby) adding support for ES modules containing new ES syntax, supporting modern Node versions (at least up to v21), and supporting `node:*` imports.
+* Support for modules that use the `const require = createRequire(...)` pattern (or declare any other global `require` variable) which are otherwise unusable with `esm`.
+* Support for modules that use only an `exports` map in their package.json, without a `main` field, which are otherwise unresolveable (reporting "Cannot find module", even though `import()` works correctly).
 
 Install
 ---
 
-* __New projects__
-
-  Run `npm init esm` or `yarn create esm`.
-
-  :bulb: Use the `-y` flag to answer “yes” to all prompts.
-
-* __Existing projects__
-
-  Run `npm i esm` or `yarn add esm`.
+Run `npm i @httptoolkit/esm` or `yarn add @httptoolkit/esm`.
 
 Getting started
 ---
 
-There are two ways to enable `esm`.
+There are two ways to enable `@httptoolkit/esm`.
 
-1. Enable `esm` for packages:
+1. Enable `@httptoolkit/esm` for packages:
 
-   Use `esm` to load the main ES module and export it as CommonJS.
+   Use `@httptoolkit/esm` to load the main ES module and export it as CommonJS.
 
     __index.js__
     ```js
     // Set options as a parameter, environment variable, or rc file.
-    require = require("esm")(module/*, options*/)
+    require = require("@httptoolkit/esm")(module/*, options*/)
     module.exports = require("./main.js")
     ```
     __main.js__
@@ -40,22 +33,21 @@ There are two ways to enable `esm`.
     // ESM syntax is supported.
     export {}
     ```
-    :bulb: These files are automagically created with `npm init esm` or `yarn create esm`.
 
-2. Enable `esm` for local runs:
+2. Enable `@httptoolkit/esm` for local runs:
 
     ```shell
-    node -r esm main.js
+    node -r @httptoolkit/esm main.js
     ```
-    :bulb: Omit the filename to enable `esm` in the REPL.
+    :bulb: Omit the filename to enable `@httptoolkit/esm` in the REPL.
 
 Features
 ---
 
 :clap: By default, :100: percent CJS interoperability is enabled so you can get stuff done.<br>
-:lock: `.mjs` files are limited to basic functionality without support for `esm` options.
+:lock: `.mjs` files are limited to basic functionality without support for `@httptoolkit/esm` options.
 
-Out of the box `esm` just works, no configuration necessary, and supports:
+Out of the box `@httptoolkit/esm` just works, no configuration necessary, and supports:
 
 * Passing all applicable [test262](https://github.com/tc39/test262) compliance tests
 * [`import`](https://ponyfoo.com/articles/es6-modules-in-depth#import)/[`export`](https://ponyfoo.com/articles/es6-modules-in-depth#export)
@@ -233,30 +225,30 @@ Tips
 
 ### Extensions
 
-* Enable `esm` for [`wallaby.js`](https://wallabyjs.com/) following their
+* Enable `@httptoolkit/esm` for [`wallaby.js`](https://wallabyjs.com/) following their
   [integration example](https://wallabyjs.com/docs/integration/node.html#es-modules).
 
 ### Loading
 
-* Load `esm` before loaders/monitors like
+* Load `@httptoolkit/esm` before loaders/monitors like
   [`@babel/register`](https://babeljs.io/docs/en/next/babel-register.html),
   [`newrelic`](https://github.com/newrelic/node-newrelic),
   [`sqreen`](https://docs.sqreen.io/sqreen-for-nodejs/getting-started-2/), and
   [`ts-node`](https://github.com/TypeStrong/ts-node#programmatic).
 
-* Load `esm` for [`jasmine`](https://jasmine.github.io/) using the
+* Load `@httptoolkit/esm` for [`jasmine`](https://jasmine.github.io/) using the
   [`"helpers"`](https://jasmine.github.io/setup/nodejs.html#configuration)
   field in `jasmine.json`:
   ```json
   "helpers": [
-    "node_modules/esm"
+    "node_modules/@httptoolkit/esm"
   ]
   ```
 
-* Load `esm` with “node-args" options of:<br>
-  - [`pm2`](https://pm2.io/doc/en/runtime/reference/pm2-cli/#pm2-flags): `--node-args="-r esm"`
+* Load `@httptoolkit/esm` with “node-args" options of:<br>
+  - [`pm2`](https://pm2.io/doc/en/runtime/reference/pm2-cli/#pm2-flags): `--node-args="-r @httptoolkit/esm"`
 
-* Load `esm` with “require” options of
+* Load `@httptoolkit/esm` with “require” options of
   [`ava`](https://github.com/avajs/ava/blob/master/docs/recipes/es-modules.md),
   [`mocha`](https://mochajs.org/#-require-module-r-module),
   [`nodemon`](https://nodemon.io/),
